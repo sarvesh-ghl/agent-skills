@@ -25,6 +25,7 @@ npx skills add https://github.com/sarvesh-ghl/agent-skills/tree/main/skills/pr-r
 | Skill | Description |
 |-------|-------------|
 | [`pr-review`](skills/pr-review/) | Review GitHub PRs with inline code comments via `gh` CLI. Fetches diff, analyzes changes, presents findings, iterates with you, and posts the review. |
+| [`qa-bug-fix-workflow`](skills/qa-bug-fix-workflow/) | End-to-end QA bug-fix workflow from ClickUp cards. Triages sub-tasks, manages multi-repo branches, fixes bugs, deploys to staging via Jenkins, and updates ClickUp statuses. |
 
 ## Manual Installation
 
@@ -57,8 +58,10 @@ agent-skills/
 ├── README.md
 ├── LICENSE                 # Apache 2.0
 ├── skills/
-│   └── pr-review/
-│       └── SKILL.md        # Skill instructions + metadata
+│   ├── pr-review/
+│   │   └── SKILL.md        # PR review skill
+│   └── qa-bug-fix-workflow/
+│       └── SKILL.md        # QA bug-fix workflow skill
 └── template/
     └── SKILL.md            # Starter template for new skills
 ```
