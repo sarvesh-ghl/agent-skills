@@ -4,7 +4,7 @@ description: Review GitHub pull requests with inline code comments. Use when the
 license: Apache-2.0
 metadata:
   author: sarvesh-ghl
-  version: "1.0"
+  version: "1.1"
 compatibility: Requires gh CLI authenticated with repo access
 ---
 
@@ -77,9 +77,9 @@ For each finding, record:
 - **Description**: What's wrong and why
 - **Suggestion**: How to fix it (with code snippet if applicable)
 
-### Step 5: Present findings to user
+### Step 5: Present findings to user (internal preview)
 
-Format the review as a structured report:
+This format is for the USER to review in chat. It is structured for easy scanning.
 
 ```
 ## PR Review: <title>
@@ -101,18 +101,10 @@ Database query inside `forEach` causes N+1 problem. Batch the IDs and query once
 
 ---
 
-### another/file.ts
-
-**Line 15** 🟢 **Naming** — Unclear variable name
-`d` should be `durationMs` for clarity.
-
----
-
 ## Summary
 [1-2 sentence overall assessment]
 
 ## Recommended action: [APPROVE / REQUEST_CHANGES / COMMENT]
-[Brief justification for the recommendation]
 ```
 
 ### Step 6: Get user approval
@@ -132,7 +124,75 @@ If the user chooses "Edit findings":
 3. Ask for approval again
 4. Repeat until the user is satisfied
 
-### Step 7: Post the review
+### Step 7: Rewrite for GitHub (CRITICAL)
+
+**The review is posted under the user's GitHub account. It MUST read like the user wrote it themselves.** Before posting, rewrite every comment and the summary body using these rules:
+
+#### Voice & tone rules
+
+| Rule | Bad (AI voice) | Good (human voice) |
+|------|----------------|---------------------|
+| First person | "The reviewer notes that..." | "I noticed that..." |
+| No severity labels | "🟡 **Logic** — Fragile assumption" | "This assumption looks fragile —" |
+| No emoji prefixes | "🔴 **Bug** — Null ref" | "This will throw if `profile` is undefined." |
+| No category tags | "**Performance** — N+1 query" | "This is doing a query per iteration — worth batching." |
+| No stats headers | "**Files reviewed**: 5 \| **Findings**: 4 (🔴 0...)" | "Looks good overall, a few things I'd tighten up:" |
+| No "Recommended action" | "**Recommended action**: COMMENT" | *(just omit — the GitHub action speaks for itself)* |
+| Conversational | "Consider identifying the root by..." | "What if we found the root by checking..." |
+| Direct questions | "This warrants a clarifying comment." | "Could we add a comment here explaining why...?" |
+| Contractions | "This does not handle..." | "This doesn't handle..." |
+| Casual where natural | "The function itself lacks unit tests for its actual behavior" | "I think this could use its own unit test —" |
+
+#### Summary body (the top-level review comment)
+
+Write 2-4 sentences as if you're leaving a quick note on a colleague's PR. Examples:
+
+```
+Nice fix — the clear-then-rebuild approach is solid for reconciling parentKeys
+after moves. Left a few suggestions, nothing blocking.
+```
+
+```
+Looks good! I had a couple of questions about the edge cases in the
+merge logic, and a minor nit on naming. Happy to approve once those
+are addressed.
+```
+
+**Never** include: file counts, finding counts, severity tallies, "Recommended action", bullet-point stat lines, or structured headers in the posted summary.
+
+#### Inline comments
+
+Each inline comment should read like a human typed it into the GitHub review box:
+
+**Bad** (AI-generated):
+```
+🟡 **Logic** — Fragile root node assumption
+
+`templates[0].parentKey = undefined` assumes the first array element is always
+the root node. If a move operation or array mutation ever places a non-root at
+index 0, this silently corrupts the graph by clearing a valid `parentKey`.
+
+Consider identifying the root by the absence of any `next` pointer referencing
+it rather than relying on array position:
+```
+
+**Good** (human):
+```
+`templates[0]` assumes the first element is always root — if a move ever
+shuffles the array, this would silently clear a valid parentKey.
+
+What about finding the root by which node nobody points to?
+```
+
+Rules for inline comments:
+- No severity emoji or bold category prefix
+- Start directly with the observation or question
+- Use "I", "we", contractions, and questions naturally
+- Keep it concise — say it in 2-3 sentences if possible, not a paragraph
+- Code suggestions are fine and encouraged (use GitHub's ` ```suggestion ` syntax)
+- If referencing another reviewer's comment, say "I agree with X" or "building on X's point" — never "the reviewer's concern"
+
+### Step 8: Post the review
 
 Use the GitHub API to create a review with inline comments:
 
@@ -145,7 +205,7 @@ gh api repos/{owner}/{repo}/pulls/{pr_number}/reviews \
     {
       "path": "file/path.ts",
       "line": 42,
-      "body": "🔴 **Bug** — Null reference possible\n\n`user.profile.name` accessed without null check.\n\n```suggestion\nconst name = user.profile?.name ?? '\''Unknown'\''\n```"
+      "body": "This will throw if `profile` is undefined.\n\n```suggestion\nconst name = user.profile?.name ?? '\''Unknown'\''\n```"
     }
   ]'
 ```
