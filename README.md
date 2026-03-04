@@ -10,13 +10,14 @@ Compatible with **Cursor**, **Claude Code**, **Windsurf**, **Cline**, **Codex**,
 ## Quick Install
 
 ```bash
+# Install all skills
 npx skills add sarvesh-ghl/agent-skills
-```
 
-To install a specific skill:
+# Install a specific skill
+npx skills add sarvesh-ghl/agent-skills --skill pr-review
 
-```bash
-npx skills add sarvesh-ghl/agent-skills/pr-review
+# Or use the full URL path
+npx skills add https://github.com/sarvesh-ghl/agent-skills/tree/main/skills/pr-review
 ```
 
 ## Skills
