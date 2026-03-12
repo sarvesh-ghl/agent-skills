@@ -27,6 +27,32 @@ npx skills add https://github.com/sarvesh-ghl/agent-skills/tree/main/skills/pr-r
 | [`pr-review`](skills/pr-review/) | Review GitHub PRs with inline code comments via `gh` CLI. Fetches diff, analyzes changes, presents findings, iterates with you, and posts the review. |
 | [`qa-bug-fix-workflow`](skills/qa-bug-fix-workflow/) | End-to-end QA bug-fix workflow from ClickUp cards. Triages sub-tasks, manages multi-repo branches, fixes bugs, deploys to staging via Jenkins, and updates ClickUp statuses. |
 
+### Obsidian Vault Management
+
+Skills for managing an Obsidian vault directly from AI agent conversations. Requires the [Obsidian MCP server](https://github.com/MarkusPfworlds/obsidian-mcp).
+
+**Write skills** — capture information into the vault:
+
+| Skill | Triggers | Description |
+|-------|----------|-------------|
+| [`obsidian-session-log`](skills/obsidian-session-log/) | "save to obsidian", "log this session" | Document coding sessions with changes, decisions, bugs, and open items. |
+| [`obsidian-bookmark`](skills/obsidian-bookmark/) | "save this", "bookmark this", "clip this" | Quick-save links, code snippets, or ideas. |
+| [`obsidian-research`](skills/obsidian-research/) | "research and save", "look into this" | Research a topic via web/codebase, save structured findings. |
+| [`obsidian-document`](skills/obsidian-document/) | "document this", "write docs on" | Write structured documentation about concepts, systems, or processes. |
+| [`obsidian-blog`](skills/obsidian-blog/) | "write a blog on", "draft a blog post" | Draft blog posts with proper structure and frontmatter. |
+| [`obsidian-guide`](skills/obsidian-guide/) | "write a guide", "create a tutorial" | Write step-by-step guides with verification and troubleshooting. |
+| [`obsidian-meeting-notes`](skills/obsidian-meeting-notes/) | "save meeting notes", "capture this meeting" | Capture meetings with decisions, action items, and follow-ups. |
+| [`obsidian-remember`](skills/obsidian-remember/) | "remember this", "note this down" | Lightest-weight capture for facts, decisions, and context. |
+
+**Read skills** — retrieve and synthesize from the vault:
+
+| Skill | Triggers | Description |
+|-------|----------|-------------|
+| [`obsidian-recall`](skills/obsidian-recall/) | "find my notes on X", "search obsidian" | Search and retrieve notes by topic, keyword, or tag. |
+| [`obsidian-review`](skills/obsidian-review/) | "what have I been working on?", "recent sessions" | Browse recent vault activity grouped by date. |
+| [`obsidian-lookup`](skills/obsidian-lookup/) | "do I have notes on X?", "did I already document X?" | Quick pre-check before starting work to avoid duplicates. |
+| [`obsidian-digest`](skills/obsidian-digest/) | "summarize my notes on X", "brief me on X" | Synthesize multiple notes into a coherent summary. |
+
 ## Manual Installation
 
 If you prefer not to use the CLI, clone and symlink:
@@ -58,10 +84,20 @@ agent-skills/
 ├── README.md
 ├── LICENSE                 # Apache 2.0
 ├── skills/
-│   ├── pr-review/
-│   │   └── SKILL.md        # PR review skill
-│   └── qa-bug-fix-workflow/
-│       └── SKILL.md        # QA bug-fix workflow skill
+│   ├── pr-review/          # GitHub PR review
+│   ├── qa-bug-fix-workflow/ # QA bug-fix from ClickUp
+│   ├── obsidian-session-log/ # Coding session logs
+│   ├── obsidian-bookmark/  # Quick-save links/snippets
+│   ├── obsidian-research/  # Research and save findings
+│   ├── obsidian-document/  # Structured documentation
+│   ├── obsidian-blog/      # Blog post drafts
+│   ├── obsidian-guide/     # Step-by-step guides
+│   ├── obsidian-meeting-notes/ # Meeting notes
+│   ├── obsidian-remember/  # Quick fact capture
+│   ├── obsidian-recall/    # Search and retrieve notes
+│   ├── obsidian-review/    # Browse recent activity
+│   ├── obsidian-lookup/    # Pre-check for existing notes
+│   └── obsidian-digest/    # Synthesize across notes
 └── template/
     └── SKILL.md            # Starter template for new skills
 ```
