@@ -26,6 +26,7 @@ npx skills add https://github.com/sarvesh-ghl/agent-skills/tree/main/skills/pr-r
 |-------|-------------|
 | [`pr-review`](skills/pr-review/) | Review GitHub PRs with inline code comments via `gh` CLI. Fetches diff, analyzes changes, presents findings, iterates with you, and posts the review. |
 | [`qa-bug-fix-workflow`](skills/qa-bug-fix-workflow/) | End-to-end QA bug-fix workflow from ClickUp cards. Triages sub-tasks, manages multi-repo branches, fixes bugs, deploys to staging via Jenkins, and updates ClickUp statuses. |
+| [`google-workspace-cli`](skills/google-workspace-cli/) | Read, write, and manage Google Sheets, Docs, Drive, Gmail, Calendar, and Slides via the `gws` CLI. Triggers on Google Workspace URLs or data requests. |
 
 ### Obsidian Vault Management
 
@@ -97,7 +98,8 @@ agent-skills/
 │   ├── obsidian-recall/    # Search and retrieve notes
 │   ├── obsidian-review/    # Browse recent activity
 │   ├── obsidian-lookup/    # Pre-check for existing notes
-│   └── obsidian-digest/    # Synthesize across notes
+│   ├── obsidian-digest/    # Synthesize across notes
+│   └── google-workspace-cli/ # Google Workspace via gws CLI
 └── template/
     └── SKILL.md            # Starter template for new skills
 ```
